@@ -1,22 +1,18 @@
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import About from "./components/About";
-import Skills from "./components/Skills";
-import Projects from "./components/Projects";
-import Contact from "./components/Contact";
-import Footer from "./components/Footer";
-import ClientScript from "./components/ClientScript";
+import Navbar from "../components/Navbar";
+import Hero from "../components/Hero";
+import Skills from "../components/Skills";
+import Projects from "../components/Projects";
+import ClientScript from "../components/ClientScript";
+import CursorEffect from "../components/CursorEffect";
 
 export default function Home() {
   return (
     <>
+      <CursorEffect />
       <Navbar />
       <Hero />
-      <About />
       <Skills />
       <Projects />
-      <Contact />
-      <Footer />
       <ClientScript />
     </>
   );

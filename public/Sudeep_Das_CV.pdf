@@ -1,0 +1,188 @@
+%PDF-1.4
+
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+
+3 0 obj
+<<
+/Type /Page
+/Parent 2 0 R
+/MediaBox [0 0 612 792]
+/Contents 4 0 R
+/Resources <<
+/Font <<
+/F1 5 0 R
+/F2 6 0 R
+>>
+>>
+endobj
+
+4 0 obj
+<< /Length 2000 >>
+stream
+q
+
+% ================= HEADER =================
+0.12 0.4 0.8 rg
+0 730 612 62 re
+f
+
+% Name
+BT
+/F1 26 Tf
+1 1 1 rg
+50 770 Td
+(SUDEEP DAS) Tj
+ET
+
+% Title
+BT
+/F2 12 Tf
+1 1 1 rg
+50 748 Td
+(Frontend Developer & UI/UX Designer | B.Voc AI & ML Student) Tj
+ET
+
+% ================= CONTACT =================
+BT
+/F2 10 Tf
+0 0 0 rg
+50 710 Td
+(Email: sudeepdas2525@zohomail.in | Phone: +91 72081 38728) Tj
+0 -14 Td
+(LinkedIn: linkedin.com/in/sudeep-das-77a3b3379 | GitHub: github.com/sudeep02525) Tj
+ET
+
+% ================= SUMMARY =================
+BT
+/F1 16 Tf
+0.12 0.4 0.8 rg
+50 665 Td
+(PROFESSIONAL SUMMARY) Tj
+ET
+
+BT
+/F2 11 Tf
+0 0 0 rg
+50 645 Td
+(Passionate Frontend Developer with 6 months of experience in HTML, CSS, JavaScript,) Tj
+0 -14 Td
+(React, and Next.js. Currently pursuing B.Voc in AI & ML and focused on building) Tj
+0 -14 Td
+(responsive, modern, and user-friendly web applications.) Tj
+ET
+
+% ================= SKILLS =================
+BT
+/F1 16 Tf
+0.12 0.4 0.8 rg
+50 595 Td
+(TECHNICAL SKILLS) Tj
+ET
+
+BT
+/F2 11 Tf
+0 0 0 rg
+50 575 Td
+(HTML5, CSS3, JavaScript \(ES6+\), React.js, Next.js) Tj
+0 -14 Td
+(Figma, UI/UX Design, Responsive Design, Git, GitHub) Tj
+ET
+
+% ================= EXPERIENCE =================
+BT
+/F1 16 Tf
+0.12 0.4 0.8 rg
+50 525 Td
+(EXPERIENCE) Tj
+ET
+
+BT
+/F2 11 Tf
+0 0 0 rg
+50 505 Td
+(Frontend Developer - Student \(Fab 2026 - Present\)) Tj
+0 -14 Td
+(- Built 10+ responsive web projects using modern frontend technologies) Tj
+0 -14 Td
+(- Converted Figma designs into pixel-perfect web pages) Tj
+0 -14 Td
+(- Used Git and GitHub for version control and collaboration) Tj
+ET
+
+% ================= EDUCATION =================
+BT
+/F1 16 Tf
+0.12 0.4 0.8 rg
+50 435 Td
+(EDUCATION) Tj
+ET
+
+BT
+/F2 11 Tf
+0 0 0 rg
+50 415 Td
+(Bachelor of Vocation \(B.Voc\) in Artificial Intelligence & Machine Learning) Tj
+0 -14 Td
+(\(2023 - Present\)) Tj
+ET
+
+% ================= PROJECTS =================
+BT
+/F1 16 Tf
+0.12 0.4 0.8 rg
+50 365 Td
+(PROJECTS) Tj
+ET
+
+BT
+/F2 11 Tf
+0 0 0 rg
+50 345 Td
+(Swiggy Clone - React based food delivery UI) Tj
+0 -14 Td
+(Personal Portfolio Website using Next.js) Tj
+0 -14 Td
+(10+ frontend mini projects) Tj
+ET
+
+% ================= FOOTER =================
+BT
+/F2 8 Tf
+0.5 0.5 0.5 rg
+50 30 Td
+(This resume is auto-generated using PDF format.) Tj
+ET
+
+Q
+endstream
+endobj
+
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+
+xref
+0 7
+0000000000 65535 f
+0000000010 00000 n
+0000000060 00000 n
+0000000125 00000 n
+0000000250 00000 n
+0000002350 00000 n
+0000002430 00000 n
+
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+2500
+%%EOF
