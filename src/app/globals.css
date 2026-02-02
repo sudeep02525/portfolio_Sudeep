@@ -3187,6 +3187,44 @@ body {
     margin-top: 80px;
 }
 
+/* Performance Optimization - Disable heavy animations across all sections */
+.skills .particle,
+.skills .star,
+.skills .dust-particle,
+.skills .bg-particle,
+.skills .space-background,
+.skills .stars-layer,
+.skills .cosmic-dust,
+.skills .nebula-effect,
+.about-hero .about-particle,
+.hero .floating-element,
+.hero .floating-elements,
+.animated-background {
+    animation: none !important;
+    transform: none !important;
+}
+
+/* Disable complex transforms and 3D effects */
+* {
+    transform-style: flat !important;
+    backface-visibility: hidden !important;
+}
+
+/* Simplify transitions */
+.skill-roadmap-card,
+.project-card,
+.summary-card {
+    transition: transform 0.2s ease !important;
+}
+
+/* Keep only essential Contact animations */
+.contact-section .float-element,
+.contact-section .avatar-ring,
+.contact-section .animated-line {
+    animation-duration: 4s !important;
+    animation-timing-function: ease-in-out !important;
+}
+
 /* Dynamic Background */
 .contact-bg {
     position: absolute;

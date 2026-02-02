@@ -70,28 +70,37 @@ export default function Skills() {
       return;
     }
     
-    // Only count visitors on live website
-    let storedCount = localStorage.getItem('portfolioVisitorCount');
+    // Check if visitor has already been counted in this session
+    const sessionVisited = sessionStorage.getItem('portfolioSessionVisited');
     
-    if (!storedCount) {
-      // First time visitor on live site - start from 0
-      storedCount = 1;
+    if (!sessionVisited) {
+      // First time visitor in this session
+      let storedCount = localStorage.getItem('portfolioVisitorCount');
+      
+      if (!storedCount) {
+        // Very first visitor ever
+        storedCount = 1;
+      } else {
+        // Increment for new session visitor
+        storedCount = parseInt(storedCount) + 1;
+      }
+      
       localStorage.setItem('portfolioVisitorCount', storedCount.toString());
+      sessionStorage.setItem('portfolioSessionVisited', 'true');
+      setVisitorCount(parseInt(storedCount));
     } else {
-      // Increment for returning visitor
-      storedCount = parseInt(storedCount) + 1;
-      localStorage.setItem('portfolioVisitorCount', storedCount.toString());
+      // Already counted in this session, just display current count
+      const currentCount = localStorage.getItem('portfolioVisitorCount') || '0';
+      setVisitorCount(parseInt(currentCount));
     }
     
-    setVisitorCount(parseInt(storedCount));
-    
-    // Simulate live updates every 15-45 seconds (only on live site)
+    // Simulate live updates every 30-60 seconds (only on live site)
     const interval = setInterval(() => {
       const currentCount = parseInt(localStorage.getItem('portfolioVisitorCount') || '0');
       const newCount = currentCount + Math.floor(Math.random() * 2) + 1; // Add 1-2
       localStorage.setItem('portfolioVisitorCount', newCount.toString());
       setVisitorCount(newCount);
-    }, Math.random() * 30000 + 15000); // Random between 15-45 seconds
+    }, Math.random() * 30000 + 30000); // Random between 30-60 seconds
 
     return () => clearInterval(interval);
   };

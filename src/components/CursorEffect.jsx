@@ -7,6 +7,7 @@ export default function CursorEffect() {
   const cursorDotRef = useRef(null);
   const mouseRef = useRef({ x: 0, y: 0 });
   const cursorRef2 = useRef({ x: 0, y: 0 });
+  const rafRef = useRef(null);
 
   useEffect(() => {
     const cursor = cursorRef.current;
@@ -14,8 +15,13 @@ export default function CursorEffect() {
 
     if (!cursor || !cursorDot) return;
 
-    // Mouse move handler
+    // Optimized mouse move handler with throttling
+    let lastTime = 0;
     const handleMouseMove = (e) => {
+      const now = Date.now();
+      if (now - lastTime < 16) return; // Throttle to ~60fps
+      lastTime = now;
+
       mouseRef.current.x = e.clientX;
       mouseRef.current.y = e.clientY;
 
@@ -24,18 +30,21 @@ export default function CursorEffect() {
       cursorDot.style.top = e.clientY + 'px';
     };
 
-    // Smooth cursor follow animation
+    // Optimized cursor follow animation
     const animateCursor = () => {
       const dx = mouseRef.current.x - cursorRef2.current.x;
       const dy = mouseRef.current.y - cursorRef2.current.y;
 
-      cursorRef2.current.x += dx * 0.1;
-      cursorRef2.current.y += dy * 0.1;
+      // Only animate if there's significant movement
+      if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) {
+        cursorRef2.current.x += dx * 0.1;
+        cursorRef2.current.y += dy * 0.1;
 
-      cursor.style.left = cursorRef2.current.x + 'px';
-      cursor.style.top = cursorRef2.current.y + 'px';
+        cursor.style.left = cursorRef2.current.x + 'px';
+        cursor.style.top = cursorRef2.current.y + 'px';
+      }
 
-      requestAnimationFrame(animateCursor);
+      rafRef.current = requestAnimationFrame(animateCursor);
     };
 
     // Handle hover effects
@@ -50,10 +59,10 @@ export default function CursorEffect() {
     };
 
     // Add event listeners
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     
     // Add hover effects to interactive elements
-    const interactiveElements = document.querySelectorAll('a, button, .project-card, .skill-card, .contact-icon');
+    const interactiveElements = document.querySelectorAll('a, button, .project-card, .skill-card, .contact-method-card');
     interactiveElements.forEach(el => {
       el.addEventListener('mouseenter', handleMouseEnter);
       el.addEventListener('mouseleave', handleMouseLeave);
@@ -64,6 +73,9 @@ export default function CursorEffect() {
     // Cleanup
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
       interactiveElements.forEach(el => {
         el.removeEventListener('mouseenter', handleMouseEnter);
         el.removeEventListener('mouseleave', handleMouseLeave);

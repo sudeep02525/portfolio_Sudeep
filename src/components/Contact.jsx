@@ -100,11 +100,11 @@ export default function Contact() {
 
   return (
     <section className="contact-section" id="contact" ref={contactRef}>
-      {/* Dynamic Background */}
+      {/* Light Background */}
       <div className="contact-bg">
         <div className="contact-bg-gradient"></div>
         <div className="contact-particles">
-          {[...Array(20)].map((_, i) => (
+          {[...Array(12)].map((_, i) => (
             <div key={i} className={`particle particle-${i + 1}`}></div>
           ))}
         </div>
