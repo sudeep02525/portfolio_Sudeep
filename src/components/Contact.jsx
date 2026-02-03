@@ -76,16 +76,17 @@ export default function Contact() {
 
     {
       icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <rect width="24" height="24" rx="5" fill="#FFD700"/>
-          <path d="M6 8.5c0-1.1.9-2 2-2h1.5c.8 0 1.5.7 1.5 1.5v1c0 .8-.7 1.5-1.5 1.5H8v2h1.5c.8 0 1.5.7 1.5 1.5v1c0 .8-.7 1.5-1.5 1.5H8c-1.1 0-2-.9-2-2v-4.5z" fill="white"/>
-          <path d="M13 8.5v7h1.5v-7H13z" fill="white"/>
-          <circle cx="14.75" cy="6.5" r="1" fill="white"/>
-        </svg>
+        <img 
+          src="/Arattai.svg" 
+          alt="Arattai" 
+          width="24" 
+          height="24" 
+          style={{ borderRadius: '4px' }}
+        />
       ),
       label: 'Arattai',
       value: '@sudeepdas',
-      link: 'https://aratt.ai/user/@sudeepdas',
+      link: 'arattai://user/@sudeepdas',
       color: '#FFD700',
       description: 'Message me on Arattai'
     }
@@ -97,6 +98,26 @@ export default function Contact() {
     { icon: 'fab fa-instagram', color: '#E4405F', link: 'https://www.instagram.com/sudeep______das/' },
     { icon: 'fab fa-twitter', color: '#1DA1F2', link: 'https://x.com/Sudeepd44704922' }
   ];
+
+  const handleArattaiClick = (e) => {
+    e.preventDefault();
+    
+    // Try to open Arattai app first
+    const appUrl = 'arattai://user/@sudeepdas';
+    const webUrl = 'https://aratt.ai/user/@sudeepdas';
+    
+    // Create a hidden iframe to try app deep link
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = appUrl;
+    document.body.appendChild(iframe);
+    
+    // Fallback to web version after a short delay
+    setTimeout(() => {
+      document.body.removeChild(iframe);
+      window.open(webUrl, '_blank', 'noopener,noreferrer');
+    }, 1000);
+  };
 
   return (
     <section className="contact-section" id="contact" ref={contactRef}>
@@ -135,11 +156,12 @@ export default function Contact() {
               {contactMethods.map((method, index) => (
                 <a
                   key={index}
-                  href={method.link}
+                  href={method.label === 'Arattai' ? '#' : method.link}
                   target={method.link.startsWith('http') ? '_blank' : '_self'}
                   rel="noopener noreferrer"
                   className="contact-method-card"
                   style={{ '--method-color': method.color }}
+                  onClick={method.label === 'Arattai' ? handleArattaiClick : undefined}
                 >
                   <div className="method-icon">{method.icon}</div>
                   <div className="method-content">

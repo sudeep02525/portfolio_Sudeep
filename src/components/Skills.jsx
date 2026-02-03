@@ -54,11 +54,14 @@ export default function Skills() {
     setStarData(stars);
     setDustData(dust);
 
-    // Initialize visitor counter
+    // Initialize visitor counter and start periodic updates
     initializeVisitorCounter();
+    const cleanup = startPeriodicUpdate();
+    
+    return cleanup;
   }, [isClient]);
 
-  const initializeVisitorCounter = () => {
+  const initializeVisitorCounter = async () => {
     // Check if running on localhost
     const isLocalhost = window.location.hostname === 'localhost' || 
                        window.location.hostname === '127.0.0.1' || 
@@ -70,18 +73,51 @@ export default function Skills() {
       return;
     }
     
-    // Check if visitor has already been counted in this session
+    try {
+      // Check if visitor has already been counted in this browser
+      const hasVisited = localStorage.getItem('portfolioVisitorTracked') === 'true';
+      
+      // Track visitor via API
+      const response = await fetch('/api/visitors', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ hasVisited })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        setVisitorCount(data.totalVisitors);
+        
+        // Mark as visited in localStorage if it's a new visitor
+        if (data.isNewVisitor) {
+          localStorage.setItem('portfolioVisitorTracked', 'true');
+        }
+      } else {
+        console.error('Failed to track visitor:', data.error);
+        // Fallback to old localStorage method
+        fallbackToLocalStorage();
+      }
+      
+    } catch (error) {
+      console.error('Error tracking visitor:', error);
+      // Fallback to old localStorage method
+      fallbackToLocalStorage();
+    }
+  };
+
+  // Fallback method (your original localStorage approach)
+  const fallbackToLocalStorage = () => {
     const sessionVisited = sessionStorage.getItem('portfolioSessionVisited');
     
     if (!sessionVisited) {
-      // First time visitor in this session
       let storedCount = localStorage.getItem('portfolioVisitorCount');
       
       if (!storedCount) {
-        // Very first visitor ever
         storedCount = 1;
       } else {
-        // Increment for new session visitor
         storedCount = parseInt(storedCount) + 1;
       }
       
@@ -89,18 +125,25 @@ export default function Skills() {
       sessionStorage.setItem('portfolioSessionVisited', 'true');
       setVisitorCount(parseInt(storedCount));
     } else {
-      // Already counted in this session, just display current count
       const currentCount = localStorage.getItem('portfolioVisitorCount') || '0';
       setVisitorCount(parseInt(currentCount));
     }
-    
-    // Simulate live updates every 30-60 seconds (only on live site)
-    const interval = setInterval(() => {
-      const currentCount = parseInt(localStorage.getItem('portfolioVisitorCount') || '0');
-      const newCount = currentCount + Math.floor(Math.random() * 2) + 1; // Add 1-2
-      localStorage.setItem('portfolioVisitorCount', newCount.toString());
-      setVisitorCount(newCount);
-    }, Math.random() * 30000 + 30000); // Random between 30-60 seconds
+  };
+
+  // Periodic update from server (every 30 seconds)
+  const startPeriodicUpdate = () => {
+    const interval = setInterval(async () => {
+      try {
+        const response = await fetch('/api/visitors');
+        const data = await response.json();
+        
+        if (data.success) {
+          setVisitorCount(data.totalVisitors);
+        }
+      } catch (error) {
+        console.error('Error updating visitor count:', error);
+      }
+    }, 30000); // Update every 30 seconds
 
     return () => clearInterval(interval);
   };
@@ -454,14 +497,48 @@ export default function Skills() {
         {/* Skills Summary */}
         <div className="skills-summary">
           <div className="summary-card">
-            <div className="summary-icon">🏆</div>
+            <div className="summary-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                {/* Experience/Time Icon */}
+                <circle cx="12" cy="12" r="10" fill="none" stroke="#4ECDC4" strokeWidth="2"/>
+                <path d="M12 6v6l4 2" stroke="#4ECDC4" strokeWidth="2" strokeLinecap="round"/>
+                <circle cx="12" cy="12" r="1" fill="#4ECDC4"/>
+                {/* Clock marks */}
+                <circle cx="12" cy="4" r="0.5" fill="#4ECDC4"/>
+                <circle cx="18" cy="12" r="0.5" fill="#4ECDC4"/>
+                <circle cx="12" cy="20" r="0.5" fill="#4ECDC4"/>
+                <circle cx="6" cy="12" r="0.5" fill="#4ECDC4"/>
+                {/* Subtle glow */}
+                <circle cx="12" cy="12" r="11" fill="none" stroke="#4ECDC4" strokeWidth="0.5" opacity="0.3">
+                  <animate attributeName="opacity" values="0.2;0.5;0.2" dur="3s" repeatCount="indefinite"/>
+                </circle>
+              </svg>
+            </div>
             <div className="summary-content">
               <h3>Total Experience</h3>
               <p>6 Months in Web Development</p>
             </div>
           </div>
           <div className="summary-card">
-            <div className="summary-icon">🚀</div>
+            <div className="summary-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                {/* Code/Project Icon */}
+                <rect x="3" y="4" width="18" height="14" rx="2" fill="none" stroke="#4ECDC4" strokeWidth="2"/>
+                <rect x="3" y="4" width="18" height="4" rx="2" fill="#4ECDC4" opacity="0.3"/>
+                {/* Code lines */}
+                <path d="M6 11h4M6 13h6M6 15h3" stroke="#4ECDC4" strokeWidth="1.5" strokeLinecap="round"/>
+                {/* Brackets */}
+                <path d="M14 11l2 1-2 1M18 11l-2 1 2 1" stroke="#4ECDC4" strokeWidth="1.5" strokeLinecap="round"/>
+                {/* Window dots */}
+                <circle cx="5" cy="6" r="0.5" fill="#FF6B6B"/>
+                <circle cx="7" cy="6" r="0.5" fill="#FFA500"/>
+                <circle cx="9" cy="6" r="0.5" fill="#4ECDC4"/>
+                {/* Glow effect */}
+                <rect x="3" y="4" width="18" height="14" rx="2" fill="none" stroke="#4ECDC4" strokeWidth="0.5" opacity="0.4">
+                  <animate attributeName="opacity" values="0.2;0.6;0.2" dur="2.5s" repeatCount="indefinite"/>
+                </rect>
+              </svg>
+            </div>
             <div className="summary-content">
               <h3>Projects Completed</h3>
               <p>10+ Successful Projects</p>
@@ -469,9 +546,16 @@ export default function Skills() {
           </div>
           <div className="summary-card">
             <div className="summary-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                <circle cx="12" cy="12" r="3"/>
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                {/* Simple Eye */}
+                <ellipse cx="12" cy="12" rx="8" ry="5" fill="none" stroke="#00D4FF" strokeWidth="2"/>
+                <circle cx="12" cy="12" r="3" fill="#00D4FF"/>
+                <circle cx="12" cy="12" r="1.5" fill="#0066CC"/>
+                <circle cx="12.5" cy="11.5" r="0.4" fill="#FFFFFF"/>
+                <circle cx="12" cy="12" r="4" fill="none" stroke="#00D4FF" strokeWidth="0.5" opacity="0.5">
+                  <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" values="0.5;0;0.5" dur="2s" repeatCount="indefinite"/>
+                </circle>
               </svg>
             </div>
             <div className="summary-content">
