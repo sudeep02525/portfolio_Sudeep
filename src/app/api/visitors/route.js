@@ -1,76 +1,38 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { MongoClient } from 'mongodb';
 
-// Path to store visitor data
-const DATA_FILE = path.join(process.cwd(), 'src', 'data', 'visitors.json');
+// MongoDB connection
+let cachedClient = null;
+let cachedDb = null;
 
-// Ensure data directory exists
-function ensureDataDirectory() {
-  const dataDir = path.dirname(DATA_FILE);
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
-  }
-}
-
-// Read visitor data
-function readVisitorData() {
-  ensureDataDirectory();
-  
-  if (!fs.existsSync(DATA_FILE)) {
-    const initialData = {
-      totalVisitors: 0,
-      uniqueVisitors: new Set(),
-      lastUpdated: new Date().toISOString()
-    };
-    fs.writeFileSync(DATA_FILE, JSON.stringify({
-      totalVisitors: initialData.totalVisitors,
-      uniqueVisitors: Array.from(initialData.uniqueVisitors),
-      lastUpdated: initialData.lastUpdated
-    }, null, 2));
-    return initialData;
+async function connectToDatabase() {
+  if (cachedClient && cachedDb) {
+    return cachedDb;
   }
 
-  try {
-    const data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
-    return {
-      totalVisitors: data.totalVisitors || 0,
-      uniqueVisitors: new Set(data.uniqueVisitors || []),
-      lastUpdated: data.lastUpdated || new Date().toISOString()
-    };
-  } catch (error) {
-    console.error('Error reading visitor data:', error);
-    return {
-      totalVisitors: 0,
-      uniqueVisitors: new Set(),
-      lastUpdated: new Date().toISOString()
-    };
+  if (!process.env.MONGODB_URI) {
+    throw new Error('MONGODB_URI environment variable is not set');
   }
+
+  const client = new MongoClient(process.env.MONGODB_URI);
+  await client.connect();
+  
+  const db = client.db('portfolio');
+  
+  cachedClient = client;
+  cachedDb = db;
+  
+  return db;
 }
 
-// Write visitor data
-function writeVisitorData(data) {
-  ensureDataDirectory();
-  
-  const dataToWrite = {
-    totalVisitors: data.totalVisitors,
-    uniqueVisitors: Array.from(data.uniqueVisitors),
-    lastUpdated: new Date().toISOString()
-  };
-  
-  fs.writeFileSync(DATA_FILE, JSON.stringify(dataToWrite, null, 2));
-}
-
-// Generate unique visitor ID based on IP and User-Agent
+// Generate unique visitor ID
 function generateVisitorId(request) {
-  // Get headers from the request object directly
   const forwarded = request.headers.get('x-forwarded-for');
-  const ip = forwarded ? forwarded.split(',')[0] : 
+  const ip = forwarded ? forwarded.split(',')[0].trim() : 
              request.headers.get('x-real-ip') || 
              'unknown';
   const userAgent = request.headers.get('user-agent') || 'unknown';
   
-  // Create a simple hash of IP + User-Agent for uniqueness
   const visitorString = `${ip}-${userAgent}`;
   return Buffer.from(visitorString).toString('base64').slice(0, 32);
 }
@@ -78,12 +40,16 @@ function generateVisitorId(request) {
 // GET: Return current visitor count
 export async function GET() {
   try {
-    const data = readVisitorData();
+    const db = await connectToDatabase();
+    const visitors = db.collection('visitors');
+    
+    const visitorDoc = await visitors.findOne({ _id: 'visitors' });
+    const totalVisitors = visitorDoc?.visitorIds?.length || 0;
     
     return NextResponse.json({
       success: true,
-      totalVisitors: data.totalVisitors,
-      lastUpdated: data.lastUpdated
+      totalVisitors,
+      lastUpdated: visitorDoc?.lastUpdated || new Date().toISOString()
     });
   } catch (error) {
     console.error('Error in GET /api/visitors:', error);
@@ -100,42 +66,31 @@ export async function POST(request) {
     const body = await request.json();
     const { hasVisited } = body;
     
-    // If user already visited (localStorage check), just return current count
-    if (hasVisited) {
-      const data = readVisitorData();
-      return NextResponse.json({
-        success: true,
-        totalVisitors: data.totalVisitors,
-        isNewVisitor: false
-      });
-    }
-    
-    // Generate unique visitor ID
     const visitorId = generateVisitorId(request);
     
-    // Read current data
-    const data = readVisitorData();
+    const db = await connectToDatabase();
+    const visitors = db.collection('visitors');
     
-    // Check if this visitor ID already exists
-    if (data.uniqueVisitors.has(visitorId)) {
-      return NextResponse.json({
-        success: true,
-        totalVisitors: data.totalVisitors,
-        isNewVisitor: false
-      });
-    }
+    // Use $addToSet to avoid duplicates
+    const result = await visitors.updateOne(
+      { _id: 'visitors' },
+      { 
+        $addToSet: { visitorIds: visitorId },
+        $set: { lastUpdated: new Date() }
+      },
+      { upsert: true }
+    );
     
-    // Add new unique visitor
-    data.uniqueVisitors.add(visitorId);
-    data.totalVisitors = data.uniqueVisitors.size;
+    // Get updated count
+    const visitorDoc = await visitors.findOne({ _id: 'visitors' });
+    const totalVisitors = visitorDoc?.visitorIds?.length || 0;
     
-    // Save updated data
-    writeVisitorData(data);
+    const isNewVisitor = result.modifiedCount > 0 || result.upsertedCount > 0;
     
     return NextResponse.json({
       success: true,
-      totalVisitors: data.totalVisitors,
-      isNewVisitor: true
+      totalVisitors,
+      isNewVisitor: !hasVisited && isNewVisitor
     });
     
   } catch (error) {

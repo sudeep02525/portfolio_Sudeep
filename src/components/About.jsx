@@ -119,7 +119,24 @@ export default function About() {
             >
               <div className="about-glow-ring"></div>
               <div className="about-profile-image">
-                👨‍💻
+                <img 
+                  src="/photo.png" 
+                  alt="Sudeep Das" 
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center top',
+                    borderRadius: '50%'
+                  }}
+                  onError={(e) => {
+                    console.log('Image failed to load:', e.target.src);
+                    e.target.style.display = 'none';
+                  }}
+                  onLoad={() => {
+                    console.log('Image loaded successfully');
+                  }}
+                />
               </div>
               
               <div className="profile-bubbles">
@@ -217,7 +234,24 @@ export default function About() {
           >
             <div className="about-glow-ring"></div>
             <div className="about-profile-image">
-              👨‍💻
+              <img 
+                src="/photo.png" 
+                alt="Sudeep Das" 
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center top',
+                  borderRadius: '50%'
+                }}
+                onError={(e) => {
+                  console.log('Image failed to load:', e.target.src);
+                  e.target.style.display = 'none';
+                }}
+                onLoad={() => {
+                  console.log('Image loaded successfully');
+                }}
+              />
             </div>
             
             {/* Two Simple Bubbles - keeping original */}

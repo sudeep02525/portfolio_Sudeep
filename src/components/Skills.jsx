@@ -559,10 +559,10 @@ export default function Skills() {
               </svg>
             </div>
             <div className="summary-content">
-              <h3>Live Visitors</h3>
+              <h3>Visitors</h3>
               <p className="live-counter">
                 <span className="visitor-count">{visitorCount.toLocaleString()}</span>
-                <span className="live-indicator">🔴 LIVE</span>
+                <span className="live-indicator">🔴 UPDATED LIVE</span>
               </p>
             </div>
           </div>
