@@ -25,7 +25,7 @@ async function connectToDatabase() {
   return client;
 }
 
-// GET: Increment visitor count (called only once per device via frontend guard)
+// GET: Fetch current visitor count WITHOUT incrementing
 export async function GET() {
   try {
     // Connect to MongoDB
@@ -33,27 +33,17 @@ export async function GET() {
     const db = client.db('portfolio');
     const visitors = db.collection('visitors');
     
-    // Atomically increment totalVisitors by 1
-    const result = await visitors.findOneAndUpdate(
-      {}, // Empty filter to match the single document
-      { 
-        $inc: { totalVisitors: 1 },
-        $set: { lastUpdated: new Date() }
-      },
-      { 
-        upsert: true, // Create if doesn't exist
-        returnDocument: 'after' // Return updated document
-      }
-    );
+    // Just fetch the document, don't modify
+    const result = await visitors.findOne({});
     
-    // Return the updated count
+    // Return current count (or 0 if no document exists yet)
     return NextResponse.json({
       success: true,
-      totalVisitors: result.totalVisitors
+      totalVisitors: result?.totalVisitors || 0
     });
     
   } catch (error) {
-    console.error('Error in GET /api/visitors:', error);
+    console.error('Error in GET /api/visitors/count:', error);
     
     // Return proper error response
     return NextResponse.json(

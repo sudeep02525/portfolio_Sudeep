@@ -74,67 +74,40 @@ export default function Skills() {
     }
     
     try {
-      // Check if visitor has already been counted in this browser
-      const hasVisited = localStorage.getItem('portfolioVisitorTracked') === 'true';
+      // Check if this device/browser has already been counted
+      const alreadyCounted = localStorage.getItem('visitor_counted') === 'true';
       
-      // Track visitor via API
-      const response = await fetch('/api/visitors', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ hasVisited })
-      });
-      
-      const data = await response.json();
-      
-      if (data.success) {
-        setVisitorCount(data.totalVisitors);
+      if (alreadyCounted) {
+        // Already counted - just fetch current count without incrementing
+        const response = await fetch('/api/visitors/count');
+        const data = await response.json();
         
-        // Mark as visited in localStorage if it's a new visitor
-        if (data.isNewVisitor) {
-          localStorage.setItem('portfolioVisitorTracked', 'true');
+        if (data.success) {
+          setVisitorCount(data.totalVisitors);
         }
       } else {
-        console.error('Failed to track visitor:', data.error);
-        // Fallback to old localStorage method
-        fallbackToLocalStorage();
+        // First time visitor - call API to increment count
+        const response = await fetch('/api/visitors');
+        const data = await response.json();
+        
+        if (data.success) {
+          setVisitorCount(data.totalVisitors);
+          // Mark this device as counted
+          localStorage.setItem('visitor_counted', 'true');
+        }
       }
       
     } catch (error) {
       console.error('Error tracking visitor:', error);
-      // Fallback to old localStorage method
-      fallbackToLocalStorage();
     }
   };
 
-  // Fallback method (your original localStorage approach)
-  const fallbackToLocalStorage = () => {
-    const sessionVisited = sessionStorage.getItem('portfolioSessionVisited');
-    
-    if (!sessionVisited) {
-      let storedCount = localStorage.getItem('portfolioVisitorCount');
-      
-      if (!storedCount) {
-        storedCount = 1;
-      } else {
-        storedCount = parseInt(storedCount) + 1;
-      }
-      
-      localStorage.setItem('portfolioVisitorCount', storedCount.toString());
-      sessionStorage.setItem('portfolioSessionVisited', 'true');
-      setVisitorCount(parseInt(storedCount));
-    } else {
-      const currentCount = localStorage.getItem('portfolioVisitorCount') || '0';
-      setVisitorCount(parseInt(currentCount));
-    }
-  };
-
-  // Periodic update from server (every 30 seconds)
+  // Periodic update from server (every 30 seconds) - fetch only, no increment
   const startPeriodicUpdate = () => {
     const interval = setInterval(async () => {
       try {
-        const response = await fetch('/api/visitors');
+        // Just fetch current count, don't increment
+        const response = await fetch('/api/visitors/count');
         const data = await response.json();
         
         if (data.success) {
