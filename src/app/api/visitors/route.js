@@ -1,132 +1,67 @@
 import { NextResponse } from 'next/server';
 import { MongoClient } from 'mongodb';
 
-// MongoDB connection
+// Global MongoDB client caching
 let cachedClient = null;
-let cachedDb = null;
 
 async function connectToDatabase() {
-  if (cachedClient && cachedDb) {
-    return cachedDb;
+  // Return cached client if available
+  if (cachedClient) {
+    return cachedClient;
   }
 
+  // Check if MongoDB URI is set
   if (!process.env.MONGODB_URI) {
-    console.warn('MONGODB_URI environment variable is not set - using fallback mode');
-    return null; // Return null for fallback handling
+    throw new Error('MONGODB_URI environment variable is not set');
   }
 
+  // Create new MongoDB client
   const client = new MongoClient(process.env.MONGODB_URI);
   await client.connect();
   
-  const db = client.db('portfolio');
-  
+  // Cache the client for reuse
   cachedClient = client;
-  cachedDb = db;
   
-  return db;
+  return client;
 }
 
-// Generate unique visitor ID
-function generateVisitorId(request) {
-  const forwarded = request.headers.get('x-forwarded-for');
-  const ip = forwarded ? forwarded.split(',')[0].trim() : 
-             request.headers.get('x-real-ip') || 
-             'unknown';
-  const userAgent = request.headers.get('user-agent') || 'unknown';
-  
-  const visitorString = `${ip}-${userAgent}`;
-  return Buffer.from(visitorString).toString('base64').slice(0, 32);
-}
-
-// GET: Return current visitor count
+// GET: Increment and return visitor count
 export async function GET() {
   try {
-    const db = await connectToDatabase();
-    
-    // If MongoDB is not available, return fallback data
-    if (!db) {
-      return NextResponse.json({
-        success: true,
-        totalVisitors: 0,
-        lastUpdated: new Date().toISOString(),
-        fallback: true
-      });
-    }
-    
+    // Connect to MongoDB
+    const client = await connectToDatabase();
+    const db = client.db('portfolio');
     const visitors = db.collection('visitors');
-    const visitorDoc = await visitors.findOne({ _id: 'visitors' });
-    const totalVisitors = visitorDoc?.visitorIds?.length || 0;
     
+    // Find and update the single document, or create if doesn't exist
+    const result = await visitors.findOneAndUpdate(
+      {}, // Empty filter to match the single document
+      { 
+        $inc: { totalVisitors: 1 },
+        $set: { lastUpdated: new Date() }
+      },
+      { 
+        upsert: true, // Create if doesn't exist
+        returnDocument: 'after' // Return updated document
+      }
+    );
+    
+    // Return the updated count
     return NextResponse.json({
       success: true,
-      totalVisitors,
-      lastUpdated: visitorDoc?.lastUpdated || new Date().toISOString()
+      totalVisitors: result.totalVisitors
     });
+    
   } catch (error) {
     console.error('Error in GET /api/visitors:', error);
     
-    // Return fallback data on error
-    return NextResponse.json({
-      success: true,
-      totalVisitors: 0,
-      lastUpdated: new Date().toISOString(),
-      fallback: true
-    });
-  }
-}
-
-// POST: Track a new visitor
-export async function POST(request) {
-  try {
-    const body = await request.json();
-    const { hasVisited } = body;
-    
-    const db = await connectToDatabase();
-    
-    // If MongoDB is not available, return fallback data
-    if (!db) {
-      return NextResponse.json({
-        success: true,
-        totalVisitors: 0,
-        isNewVisitor: false,
-        fallback: true
-      });
-    }
-    
-    const visitorId = generateVisitorId(request);
-    const visitors = db.collection('visitors');
-    
-    // Use $addToSet to avoid duplicates
-    const result = await visitors.updateOne(
-      { _id: 'visitors' },
-      { 
-        $addToSet: { visitorIds: visitorId },
-        $set: { lastUpdated: new Date() }
+    // Return proper error response
+    return NextResponse.json(
+      {
+        success: false,
+        error: error.message || 'Failed to fetch visitor count'
       },
-      { upsert: true }
+      { status: 500 }
     );
-    
-    // Get updated count
-    const visitorDoc = await visitors.findOne({ _id: 'visitors' });
-    const totalVisitors = visitorDoc?.visitorIds?.length || 0;
-    
-    const isNewVisitor = result.modifiedCount > 0 || result.upsertedCount > 0;
-    
-    return NextResponse.json({
-      success: true,
-      totalVisitors,
-      isNewVisitor: !hasVisited && isNewVisitor
-    });
-    
-  } catch (error) {
-    console.error('Error in POST /api/visitors:', error);
-    
-    // Return fallback data on error
-    return NextResponse.json({
-      success: true,
-      totalVisitors: 0,
-      isNewVisitor: false,
-      fallback: true
-    });
   }
 }
