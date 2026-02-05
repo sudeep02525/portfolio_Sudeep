@@ -11,7 +11,8 @@ async function connectToDatabase() {
   }
 
   if (!process.env.MONGODB_URI) {
-    throw new Error('MONGODB_URI environment variable is not set');
+    console.warn('MONGODB_URI environment variable is not set - using fallback mode');
+    return null; // Return null for fallback handling
   }
 
   const client = new MongoClient(process.env.MONGODB_URI);
@@ -41,8 +42,18 @@ function generateVisitorId(request) {
 export async function GET() {
   try {
     const db = await connectToDatabase();
-    const visitors = db.collection('visitors');
     
+    // If MongoDB is not available, return fallback data
+    if (!db) {
+      return NextResponse.json({
+        success: true,
+        totalVisitors: 0,
+        lastUpdated: new Date().toISOString(),
+        fallback: true
+      });
+    }
+    
+    const visitors = db.collection('visitors');
     const visitorDoc = await visitors.findOne({ _id: 'visitors' });
     const totalVisitors = visitorDoc?.visitorIds?.length || 0;
     
@@ -53,10 +64,14 @@ export async function GET() {
     });
   } catch (error) {
     console.error('Error in GET /api/visitors:', error);
-    return NextResponse.json(
-      { success: false, error: 'Failed to get visitor count' },
-      { status: 500 }
-    );
+    
+    // Return fallback data on error
+    return NextResponse.json({
+      success: true,
+      totalVisitors: 0,
+      lastUpdated: new Date().toISOString(),
+      fallback: true
+    });
   }
 }
 
@@ -66,9 +81,19 @@ export async function POST(request) {
     const body = await request.json();
     const { hasVisited } = body;
     
-    const visitorId = generateVisitorId(request);
-    
     const db = await connectToDatabase();
+    
+    // If MongoDB is not available, return fallback data
+    if (!db) {
+      return NextResponse.json({
+        success: true,
+        totalVisitors: 0,
+        isNewVisitor: false,
+        fallback: true
+      });
+    }
+    
+    const visitorId = generateVisitorId(request);
     const visitors = db.collection('visitors');
     
     // Use $addToSet to avoid duplicates
@@ -95,9 +120,13 @@ export async function POST(request) {
     
   } catch (error) {
     console.error('Error in POST /api/visitors:', error);
-    return NextResponse.json(
-      { success: false, error: 'Failed to track visitor' },
-      { status: 500 }
-    );
+    
+    // Return fallback data on error
+    return NextResponse.json({
+      success: true,
+      totalVisitors: 0,
+      isNewVisitor: false,
+      fallback: true
+    });
   }
 }
