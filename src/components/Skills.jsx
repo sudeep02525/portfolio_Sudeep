@@ -128,7 +128,10 @@ export default function Skills() {
           setIsVisible(true);
         }
       },
-      { threshold: 0.3 }
+      { 
+        threshold: 0.1, // Lower threshold for earlier trigger
+        rootMargin: '0px 0px -100px 0px' // Trigger 100px before it comes into view
+      }
     );
 
     if (skillsRef.current) {
@@ -143,17 +146,11 @@ export default function Skills() {
 
     const skillCards = document.querySelectorAll('.skill-roadmap-card');
     
-    // Check if mobile view
-    const isMobile = window.innerWidth <= 768;
-    const cardDelay = isMobile ? 50 : 80; // Even faster on mobile
-    const progressDelay = isMobile ? 100 : 200; // Faster on mobile
-    const floatDelay = isMobile ? 0.05 : 0.1; // Faster on mobile
-    
-    // Faster entrance animation
+    // Faster staggered entrance animation
     skillCards.forEach((card, index) => {
       setTimeout(() => {
         card.classList.add('animate-in');
-      }, index * cardDelay);
+      }, index * 100); // Reduced from 150ms to 100ms
     });
 
     // Progress bar animation - faster
@@ -161,12 +158,12 @@ export default function Skills() {
     progressBars.forEach((bar, index) => {
       setTimeout(() => {
         bar.style.setProperty('--progress-width', bar.dataset.progress);
-      }, index * cardDelay + progressDelay);
+      }, index * 100 + 300); // Reduced from 150ms + 500ms
     });
 
     // Floating animation
     skillCards.forEach((card, index) => {
-      card.style.animationDelay = `${index * floatDelay}s`;
+      card.style.animationDelay = `${index * 0.15}s`; // Reduced from 0.2s
       card.classList.add('floating');
     });
 

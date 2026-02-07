@@ -2634,19 +2634,6 @@ body {
 }
 
 @media (max-width: 768px) {
-    /* Skills Section - Faster animations on mobile */
-    .skill-roadmap-card {
-        transition: all 0.3s ease !important; /* Faster transition */
-    }
-
-    .skill-roadmap-card.animate-in {
-        animation-duration: 0.4s !important; /* Faster entrance */
-    }
-
-    .skill-roadmap-card.floating {
-        animation-duration: 4s !important; /* Faster floating */
-    }
-
     .skills {
         padding: 4rem 2rem;
     }
@@ -4520,13 +4507,14 @@ body {
         margin-top: 60px;
         min-height: 100vh; /* Full screen height */
         display: flex;
-        align-items: center;
+        align-items: flex-start; /* Align to top instead of center */
+        padding-top: 8rem; /* Add top padding to position content higher */
     }
 
     .hero-container {
         padding: 0; /* Remove extra padding */
         min-height: auto;
-        justify-content: center;
+        justify-content: flex-start;
         width: 100%;
     }
 
@@ -4545,7 +4533,7 @@ body {
 
     /* Main heading (Name) */
     .hero-content h2 {
-        font-size: 3rem; /* Reduced from 6rem */
+        font-size: 3.5rem; /* Increased from 3rem */
         line-height: 1.2; /* Better readability */
         white-space: normal;
         margin-bottom: 1rem;
@@ -4623,7 +4611,8 @@ body {
         margin-top: 50px;
         min-height: 100vh; /* Full screen height */
         display: flex;
-        align-items: center;
+        align-items: flex-start; /* Align to top */
+        padding-top: 6rem; /* Position content higher */
     }
 
     .hero-content {
@@ -4640,7 +4629,7 @@ body {
 
     /* Main heading */
     .hero-content h2 {
-        font-size: 2.5rem; /* Smaller for very small screens */
+        font-size: 2.8rem; /* Increased from 2.5rem */
         line-height: 1.2;
         white-space: normal;
         margin-bottom: 1rem;
