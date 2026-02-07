@@ -2634,6 +2634,19 @@ body {
 }
 
 @media (max-width: 768px) {
+    /* Skills Section - Faster animations on mobile */
+    .skill-roadmap-card {
+        transition: all 0.3s ease !important; /* Faster transition */
+    }
+
+    .skill-roadmap-card.animate-in {
+        animation-duration: 0.4s !important; /* Faster entrance */
+    }
+
+    .skill-roadmap-card.floating {
+        animation-duration: 4s !important; /* Faster floating */
+    }
+
     .skills {
         padding: 4rem 2rem;
     }

@@ -143,24 +143,30 @@ export default function Skills() {
 
     const skillCards = document.querySelectorAll('.skill-roadmap-card');
     
-    // Staggered entrance animation
+    // Check if mobile view
+    const isMobile = window.innerWidth <= 768;
+    const cardDelay = isMobile ? 50 : 80; // Even faster on mobile
+    const progressDelay = isMobile ? 100 : 200; // Faster on mobile
+    const floatDelay = isMobile ? 0.05 : 0.1; // Faster on mobile
+    
+    // Faster entrance animation
     skillCards.forEach((card, index) => {
       setTimeout(() => {
         card.classList.add('animate-in');
-      }, index * 150);
+      }, index * cardDelay);
     });
 
-    // Progress bar animation
+    // Progress bar animation - faster
     const progressBars = document.querySelectorAll('.skill-progress-fill');
     progressBars.forEach((bar, index) => {
       setTimeout(() => {
         bar.style.setProperty('--progress-width', bar.dataset.progress);
-      }, index * 150 + 500);
+      }, index * cardDelay + progressDelay);
     });
 
     // Floating animation
     skillCards.forEach((card, index) => {
-      card.style.animationDelay = `${index * 0.2}s`;
+      card.style.animationDelay = `${index * floatDelay}s`;
       card.classList.add('floating');
     });
 
