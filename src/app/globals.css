@@ -4507,14 +4507,14 @@ body {
         margin-top: 60px;
         min-height: 100vh; /* Full screen height */
         display: flex;
-        align-items: flex-start; /* Align to top instead of center */
-        padding-top: 8rem; /* Add top padding to position content higher */
+        align-items: center; /* Center vertically */
+        padding-top: 0; /* Remove extra top padding */
     }
 
     .hero-container {
         padding: 0; /* Remove extra padding */
         min-height: auto;
-        justify-content: flex-start;
+        justify-content: center;
         width: 100%;
     }
 
@@ -4523,6 +4523,7 @@ body {
         max-width: 100%;
         margin-left: 0; /* Remove extra margin */
         padding-left: 0.5rem; /* Minimal left padding */
+        margin-top: -3rem; /* Slightly shift up */
     }
 
     /* Greeting text */
@@ -4611,14 +4612,15 @@ body {
         margin-top: 50px;
         min-height: 100vh; /* Full screen height */
         display: flex;
-        align-items: flex-start; /* Align to top */
-        padding-top: 6rem; /* Position content higher */
+        align-items: center; /* Center vertically */
+        padding-top: 0; /* Remove extra top padding */
     }
 
     .hero-content {
         margin-left: 0;
         text-align: left; /* Keep left-aligned */
         padding-left: 0.5rem; /* Minimal left padding */
+        margin-top: -2rem; /* Slightly shift up */
     }
 
     /* Greeting */
