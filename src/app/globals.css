@@ -4501,56 +4501,82 @@ body {
         font-size: 0.9rem;
     }
 
+    /* ===== HERO SECTION MOBILE UPDATES ===== */
     .hero {
-        padding: 4rem 1.5rem;
+        padding: 3rem 1rem 2rem; /* Reduced left/right padding */
         margin-top: 60px;
+        min-height: auto; /* Remove fixed height for better content flow */
     }
 
     .hero-container {
-        padding: 1rem;
-        min-height: 40vh;
+        padding: 0; /* Remove extra padding */
+        min-height: auto;
         justify-content: flex-start;
     }
 
     .hero-content {
-        text-align: left;
+        text-align: left; /* Left-aligned on mobile */
         max-width: 100%;
-        margin-left: 1rem;
+        margin-left: 0; /* Remove extra margin */
+        padding-left: 0.5rem; /* Minimal left padding */
     }
 
-    .hero {
-        padding-top: 6rem;
-        padding-bottom: 4rem;
-    }
-
-    .hero-content h1 {
-        font-size: 6rem;
-        white-space: nowrap;
-    }
-
-    .hero-content .subtitle {
-        font-size: 2.4rem;
-    }
-
-    .hero-content p {
-        font-size: 1.7rem;
-    }
-
+    /* Greeting text */
     .hero-content .greeting {
-        font-size: 2.4rem;
+        font-size: 1.8rem; /* Slightly smaller */
+        margin-bottom: 1rem;
     }
 
+    /* Main heading (Name) */
+    .hero-content h2 {
+        font-size: 3rem; /* Reduced from 6rem */
+        line-height: 1.2; /* Better readability */
+        white-space: normal;
+        margin-bottom: 1rem;
+    }
+
+    /* "And I'm a" text - keep on new line but don't break "Frontend Developer" */
+    .and-im-text {
+        font-size: 1.6rem; /* Proportional to heading */
+        display: block; /* New line */
+        margin-top: 0.5rem;
+        line-height: 1.4;
+    }
+
+    /* Keep animated role text on one line */
+    .animated-role {
+        white-space: nowrap; /* Prevent "Frontend Developer" from breaking */
+        display: inline-block;
+    }
+
+    /* Hide blinking cursor on mobile */
+    .animated-role::after {
+        display: none !important; /* Hide cursor on mobile */
+    }
+
+    /* Description paragraph */
+    .hero-content p {
+        font-size: 1rem; /* 16px for better readability */
+        line-height: 1.6; /* Improved line spacing */
+        color: rgba(180, 180, 184, 0.95); /* Better contrast */
+        margin-bottom: 2rem;
+        max-width: 100%;
+    }
+
+    /* CTA Buttons */
     .hero-buttons {
         flex-direction: column;
-        gap: 1rem;
-        align-items: flex-start;
+        gap: 1rem; /* Thumb-friendly spacing */
+        align-items: flex-start; /* Left-aligned with text */
+        margin-top: 1.5rem;
     }
 
     .btn {
-        width: auto;
-        min-width: 200px;
-        padding: 0.8rem 1.5rem;
-        font-size: 0.9rem;
+        width: 100%; /* Full width for better touch targets */
+        max-width: 280px;
+        padding: 1rem 1.5rem; /* Larger touch area */
+        font-size: 1rem;
+        text-align: center;
     }
 
     .section-heading {
@@ -4575,51 +4601,73 @@ body {
 }
 
 @media (max-width: 480px) {
-    /* Hero Section Mobile */
+    /* Hero Section Mobile - Extra Small Screens */
     .hero {
-        padding: 2rem 1rem;
+        padding: 2.5rem 1rem 2rem; /* Minimal padding */
         margin-top: 50px;
-        min-height: 80vh;
+        min-height: auto;
     }
 
     .hero-content {
         margin-left: 0;
-        text-align: center;
+        text-align: left; /* Keep left-aligned */
+        padding-left: 0.5rem; /* Minimal left padding */
     }
 
+    /* Greeting */
+    .hero-content .greeting {
+        font-size: 1.5rem;
+        margin-bottom: 0.8rem;
+    }
+
+    /* Main heading */
     .hero-content h2 {
-        font-size: 2.8rem;
+        font-size: 2.5rem; /* Smaller for very small screens */
+        line-height: 1.2;
         white-space: normal;
-        line-height: 1.1;
         margin-bottom: 1rem;
     }
 
-    /* Make "And I'm a" text smaller in mobile */
+    /* "And I'm a" text - keep on new line but don't break "Frontend Developer" */
     .and-im-text {
-        font-size: 0.7em;
-        display: block;
-        margin-top: 0.5rem;
-    }
-
-    .hero-content .greeting {
         font-size: 1.4rem;
-    }
-
-    .hero-content p {
-        font-size: 1rem;
-        line-height: 1.5;
-        margin-bottom: 2rem;
-    }
-
-    .and-im-text {
-        font-size: 1.8rem;
+        display: block; /* New line */
         margin-top: 0.5rem;
+        line-height: 1.4;
     }
 
+    /* Keep animated role text on one line */
+    .animated-role {
+        white-space: nowrap; /* Prevent "Frontend Developer" from breaking */
+        display: inline-block;
+    }
+
+    /* Hide cursor on mobile */
+    .animated-role::after {
+        display: none !important;
+    }
+
+    /* Description */
+    .hero-content p {
+        font-size: 0.95rem; /* 15px */
+        line-height: 1.6;
+        color: rgba(180, 180, 184, 0.95);
+        margin-bottom: 1.5rem;
+        max-width: 100%;
+    }
+
+    /* Buttons */
     .hero-buttons {
         flex-direction: column;
         gap: 1rem;
-        align-items: center;
+        align-items: flex-start; /* Left-aligned */
+    }
+
+    .btn {
+        width: 100%;
+        max-width: 280px;
+        padding: 1rem 1.5rem;
+        font-size: 0.95rem;
     }
 
     .btn {
