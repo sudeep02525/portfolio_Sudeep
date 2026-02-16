@@ -1,5 +1,6 @@
 import "./globals.css";
 import ScrollToTop from "../components/ScrollToTop";
+import CopyProtection from "../components/CopyProtection";
 
 export const metadata = {
   title: "Sudeep Das - Frontend Developer & Aspiring AI/ML Engineer",
@@ -29,6 +30,7 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body>
+        <CopyProtection />
         <ScrollToTop />
         {children}
       </body>

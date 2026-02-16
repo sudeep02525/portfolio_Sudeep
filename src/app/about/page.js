@@ -1,5 +1,6 @@
 import About from '../../components/About';
 import LearningJourney from '../../components/LearningJourney';
+import Certifications from '../../components/Certifications';
 import Navbar from '../../components/Navbar';
 import CursorEffect from '../../components/CursorEffect';
 
@@ -11,6 +12,7 @@ export default function AboutPage() {
       <main>
         <About />
         <LearningJourney />
+        <Certifications />
       </main>
     </>
   );
