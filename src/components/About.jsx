@@ -69,7 +69,7 @@ export default function About() {
           <div className="about-hero-content">
             <div className="about-badge animate-on-load">
               <span className="badge-icon">🎓</span>
-              B.Voc AI & ML Student || Frontend Developer & UI/UX Designer
+              B.Voc AI & DS Student || Frontend Developer & UI/UX Designer
             </div>
             
             <h1 className="about-hero-title animate-on-load">
@@ -81,7 +81,7 @@ export default function About() {
             </h1>
             
             <p className="about-hero-description animate-on-load">
-              I am a B.Voc student in Artificial Intelligence and Machine Learning, currently building a strong foundation in web development and UI/UX design. I focus on creating clean, responsive, and user-friendly web interfaces, and I enjoy turning ideas into practical digital experiences.
+              I am a B.Voc student in Artificial Intelligence and Data Science, currently building a strong foundation in web development and UI/UX design. I focus on creating clean, responsive, and user-friendly web interfaces, and I enjoy turning ideas into practical digital experiences.
             </p>
 
             <div className="about-social-links animate-on-load">
@@ -175,13 +175,13 @@ export default function About() {
         {/* Mobile-only badge at top */}
         <div className="about-badge mobile-badge">
           <span className="badge-icon">🎓</span>
-          B.Voc AI & ML Student || Frontend Developer & UI/UX Designer
+          B.Voc AI & DS Student || Frontend Developer & UI/UX Designer
         </div>
 
         <div className="about-hero-content">
           <div className="about-badge animate-on-load desktop-badge">
             <span className="badge-icon">🎓</span>
-            B.Voc AI & ML Student || Frontend Developer & UI/UX Designer
+            B.Voc AI & DS Student || Frontend Developer & UI/UX Designer
           </div>
           
           <h1 className="about-hero-title animate-on-load">
@@ -193,7 +193,7 @@ export default function About() {
           </h1>
           
           <p className="about-hero-description animate-on-load">
-            I am a B.Voc student in Artificial Intelligence and Machine Learning, currently building a strong foundation in web development and UI/UX design. I focus on creating clean, responsive, and user-friendly web interfaces, and I enjoy turning ideas into practical digital experiences.
+            I am a B.Voc student in Artificial Intelligence and Data Science, currently building a strong foundation in web development and UI/UX design. I focus on creating clean, responsive, and user-friendly web interfaces, and I enjoy turning ideas into practical digital experiences.
           </p>
 
           {/* Social Links */}

@@ -62,7 +62,7 @@ export default function LearningJourney() {
               <div className="card-year">2025</div>
             </div>
             <div className="card-content">
-              <h3 className="card-title">B.Voc in AI & ML</h3>
+              <h3 className="card-title">B.Voc in AI & DS</h3>
               <div className="card-institution">
                 <div style={{display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'flex-start'}}>
                   <div style={{
@@ -95,7 +95,7 @@ export default function LearningJourney() {
                 </div>
               </div>
               <p className="card-description">
-                Building strong foundations in artificial intelligence and machine learning, 
+                Building strong foundations in artificial intelligence and data science, 
                 exploring algorithms, data structures, and innovative AI solutions.
               </p>
               <div className="card-progress">
@@ -384,7 +384,7 @@ export default function LearningJourney() {
               <div className="card-year">2028</div>
             </div>
             <div className="card-content">
-              <h3 className="card-title">AI & ML Engineer</h3>
+              <h3 className="card-title">AI & DS Engineer</h3>
               <div className="card-institution">
                 <div style={{display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'flex-start'}}>
                   <div style={{
@@ -417,7 +417,7 @@ export default function LearningJourney() {
                 </div>
               </div>
               <p className="card-description">
-                Specializing in intelligent systems, machine learning models, 
+                Specializing in intelligent systems, data science models, 
                 and innovative AI-powered solutions for real-world challenges.
               </p>
               <div className="card-future">

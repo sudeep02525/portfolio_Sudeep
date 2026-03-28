@@ -3,8 +3,8 @@ import ScrollToTop from "../components/ScrollToTop";
 import CopyProtection from "../components/CopyProtection";
 
 export const metadata = {
-  title: "Sudeep Das - Frontend Developer & Aspiring AI/ML Engineer",
-  description: "B.Voc student in AI & ML, building a strong foundation in web development and frontend development. Creating clean, responsive interfaces while preparing to explore Artificial Intelligence and Machine Learning.",
+  title: "Sudeep Das - Frontend Developer & Aspiring AI/DS Engineer",
+  description: "B.Voc student in AI & DS, building a strong foundation in web development and frontend development. Creating clean, responsive interfaces while preparing to explore Artificial Intelligence and Data Science.",
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },

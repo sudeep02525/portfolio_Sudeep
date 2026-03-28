@@ -7,7 +7,7 @@ export default function Footer() {
             <div className="footer-name">Sudeep Das</div>
             <div className="footer-tagline">Frontend Developer & UI/UX Designer</div>
             <div className="footer-description">
-              Creating beautiful digital experiences while building expertise in web technologies and preparing for the future of AI & Machine Learning.
+              Creating beautiful digital experiences while building expertise in web technologies and preparing for the future of AI & Data Science.
             </div>
           </div>
           

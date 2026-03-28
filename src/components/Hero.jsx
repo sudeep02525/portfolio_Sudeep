@@ -91,7 +91,7 @@ export default function Hero() {
         <div className="hero-content">
           <div className="greeting hero-text-element">Hi, I'm</div>
           <h2 className="hero-text-element">Sudeep Das <span className="and-im-text">And I'm a <span className="animated-role"></span></span></h2>
-          <p className="hero-text-element">I am pursuing B.Voc in Artificial Intelligence & Machine Learning, while building a strong foundation in web development and UI/UX design. I create clean, responsive interfaces and enjoy turning ideas into practical digital experiences.</p>
+          <p className="hero-text-element">I am pursuing B.Voc in Artificial Intelligence & Data Science, while building a strong foundation in web development and UI/UX design. I create clean, responsive interfaces and enjoy turning ideas into practical digital experiences.</p>
           <div className="hero-buttons hero-text-element">
             <button className="btn btn-primary" onClick={handleViewProjects}>View Projects</button>
             <button className="btn btn-secondary" onClick={handleDownloadCV}>Download CV</button>

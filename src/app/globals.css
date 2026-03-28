@@ -1421,9 +1421,23 @@ body {
 }
 
 .certificate-year {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    color: #fff;
+    background: rgba(0, 198, 255, 0.15);
+    border: 1px solid rgba(0, 198, 255, 0.3);
+    border-radius: 20px;
+    padding: 0.3rem 0.8rem;
     margin-bottom: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+.certificate-year i {
+    color: #00c6ff;
+    font-size: 0.78rem;
 }
 
 .certificate-description {
@@ -1562,6 +1576,8 @@ body {
     position: relative;
     max-width: 900px;
     width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
     background: rgba(20, 20, 35, 0.95);
     border-radius: 20px;
     padding: 2rem;
@@ -1581,13 +1597,13 @@ body {
 }
 
 .certificate-modal-close {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 44px;
+    height: 44px;
+    background: rgba(20, 20, 35, 0.95);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -1596,7 +1612,7 @@ body {
     color: white;
     font-size: 1.2rem;
     transition: all 0.3s ease;
-    z-index: 10;
+    z-index: 10000;
 }
 
 .certificate-modal-close:hover {
@@ -3443,8 +3459,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 60px;
-    color: rgba(255, 255, 255, 0.1);
     overflow: hidden;
     position: relative;
 }
@@ -3452,12 +3466,12 @@ body {
 .project-image img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: top;
     border-radius: 0;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease;
     position: relative;
     z-index: 2;
-    filter: brightness(1.1) contrast(1.1);
 }
 
 .project-card:hover .project-image img {
@@ -3484,6 +3498,57 @@ body {
 
 .project-card:hover .project-image::before {
     opacity: 0.3;
+}
+
+.project-image-overlay {
+    display: none;
+}
+
+/* Project full preview modal */
+.project-preview-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 1.5rem;
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.25s ease;
+}
+
+.project-preview-modal img {
+    max-width: 95vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+}
+
+.project-preview-close {
+    position: fixed;
+    top: 1.2rem;
+    right: 1.2rem;
+    width: 44px;
+    height: 44px;
+    background: rgba(20, 20, 35, 0.95);
+    border: 1.5px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    z-index: 10000;
+}
+
+.project-preview-close:hover {
+    background: rgba(255, 0, 0, 0.2);
+    border-color: rgba(255, 0, 0, 0.5);
+    transform: rotate(90deg);
 }
 
 @keyframes gradientRotate {
@@ -5173,10 +5238,11 @@ body {
     .projects-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+        margin-top: 2rem;
     }
 
     .project-card {
-        padding: 1.5rem;
+        padding: 0;
     }
 
     .project-title {

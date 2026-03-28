@@ -28,15 +28,12 @@ async function connectToDatabase() {
 // GET: Fetch current visitor count WITHOUT incrementing
 export async function GET() {
   try {
-    // Connect to MongoDB
     const client = await connectToDatabase();
     const db = client.db('portfolio');
     const visitors = db.collection('visitors');
     
-    // Just fetch the document, don't modify
     const result = await visitors.findOne({});
     
-    // Return current count (or 0 if no document exists yet)
     return NextResponse.json({
       success: true,
       totalVisitors: result?.totalVisitors || 0
@@ -44,14 +41,7 @@ export async function GET() {
     
   } catch (error) {
     console.error('Error in GET /api/visitors/count:', error);
-    
-    // Return proper error response
-    return NextResponse.json(
-      {
-        success: false,
-        error: error.message || 'Failed to fetch visitor count'
-      },
-      { status: 500 }
-    );
+    // Return 0 gracefully on localhost / connection failure
+    return NextResponse.json({ success: true, totalVisitors: 0 });
   }
 }

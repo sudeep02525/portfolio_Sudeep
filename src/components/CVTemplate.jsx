@@ -22,7 +22,7 @@ export default function CVTemplate() {
           Frontend Developer & UI/UX Designer
         </p>
         <p style={{ fontSize: '14px', margin: '5px 0', color: '#666' }}>
-          B.Voc AI & ML Student
+          B.Voc AI & DS Student
         </p>
       </div>
 
@@ -51,10 +51,10 @@ export default function CVTemplate() {
         </h2>
         <div>
           <h3 style={{ fontSize: '14px', margin: '0', fontWeight: 'bold' }}>
-            Bachelor of Vocation in Artificial Intelligence & Machine Learning
+            Bachelor of Vocation in Artificial Intelligence & Data Science
           </h3>
           <p style={{ margin: '5px 0', color: '#666' }}>Currently Pursuing | 2023 - Present</p>
-          <p>Building strong foundation in AI/ML concepts while developing practical web development skills.</p>
+          <p>Building strong foundation in AI/DS concepts while developing practical web development skills.</p>
         </div>
       </div>
 

@@ -1,6 +1,10 @@
 "use client";
 
+import { useState } from 'react';
+
 export default function Projects() {
+  const [previewImg, setPreviewImg] = useState(null);
+
   const handleGitHubClick = () => {
     window.open('https://github.com/sudeep02525', '_blank', 'noopener,noreferrer');
   };
@@ -11,8 +15,9 @@ export default function Projects() {
         <h2 className="section-heading">Featured Projects</h2>
         <div className="projects-grid">
           <div className="project-card">
-            <div className="project-image">
+            <div className="project-image" onClick={() => setPreviewImg('/image.png')} style={{cursor:'pointer'}}>
               <img src="/image.png" alt="Swiggy Clone Preview" />
+              <div className="project-image-overlay"><i className="fas fa-expand"></i></div>
             </div>
             <div className="project-content">
               <div className="project-title">Swiggy Clone</div>
@@ -29,19 +34,19 @@ export default function Projects() {
           </div>
 
           <div className="project-card">
-            <div className="project-image">
-              <img src="/Colorgenerator.png" alt="Color Generator Preview" />
+            <div className="project-image" onClick={() => setPreviewImg('/ExpenseTracker.png')} style={{cursor:'pointer'}}>
+              <img src="/ExpenseTracker.png" alt="Expense Tracker Preview" />
+              <div className="project-image-overlay"><i className="fas fa-expand"></i></div>
             </div>
             <div className="project-content">
-              <div className="project-title">Color Generator</div>
-              <div className="project-description">A dynamic color generator tool that creates random RGB colors with a clean interface. Features instant color generation and RGB value display for designers and developers.</div>
+              <div className="project-title">Expense Tracker</div>
+              <div className="project-description">A clean and intuitive expense tracking app to manage daily finances. Features add/delete transactions, real-time balance calculation, and categorized expense overview.</div>
               <div className="project-tech-stack">
-                <span className="tech-tag">HTML</span>
-                <span className="tech-tag">Tailwind CSS</span>
-                <span className="tech-tag">JavaScript</span>
+                <span className="tech-tag">Next.js</span>
+                <span className="tech-tag">Express.js</span>
               </div>
               <div className="project-links">
-                <a href="https://github.com/sudeep02525/ColorGenerater.git" className="project-btn" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/sudeep02525/expense-tracker.git" className="project-btn" target="_blank" rel="noopener noreferrer">
                   <i className="fab fa-github"></i> Source Code
                 </a>
               </div>
@@ -49,8 +54,9 @@ export default function Projects() {
           </div>
 
           <div className="project-card">
-            <div className="project-image">
+            <div className="project-image" onClick={() => setPreviewImg('/project3.png')} style={{cursor:'pointer'}}>
               <img src="/project3.png" alt="Portfolio Website Preview" />
+              <div className="project-image-overlay"><i className="fas fa-expand"></i></div>
             </div>
             <div className="project-content">
               <div className="project-title">Portfolio Website</div>
@@ -83,6 +89,16 @@ export default function Projects() {
           </div>
         </div>
       </div>
+
+      {/* Image Preview Modal */}
+      {previewImg && (
+        <div className="project-preview-modal" onClick={() => setPreviewImg(null)}>
+          <button className="project-preview-close" onClick={() => setPreviewImg(null)}>
+            <i className="fas fa-times"></i>
+          </button>
+          <img src={previewImg} alt="Project Preview" onClick={(e) => e.stopPropagation()} />
+        </div>
+      )}
     </section>
   );
 }
