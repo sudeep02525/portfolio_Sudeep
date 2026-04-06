@@ -15,19 +15,20 @@ export default function Projects() {
         <h2 className="section-heading">Featured Projects</h2>
         <div className="projects-grid">
           <div className="project-card">
-            <div className="project-image" onClick={() => setPreviewImg('/image.png')} style={{cursor:'pointer'}}>
-              <img src="/image.png" alt="Swiggy Clone Preview" />
+            <div className="project-image" onClick={() => setPreviewImg('/Student Attendance.png')} style={{cursor:'pointer'}}>
+              <img src="/Student Attendance.png" alt="Student Attendance Preview" />
               <div className="project-image-overlay"><i className="fas fa-expand"></i></div>
             </div>
             <div className="project-content">
-              <div className="project-title">Swiggy Clone</div>
-              <div className="project-description">A modern food order app with responsive design, featuring restaurant listings, menu browsing, and seamless ordering experience built with modern web technologies.</div>
+              <div className="project-title">Student Attendance</div>
+              <div className="project-description">A student attendance management system to track and manage daily attendance records efficiently. Features real-time updates, student management, and attendance reports.</div>
               <div className="project-tech-stack">
-                <span className="tech-tag">Figma</span>
+                <span className="tech-tag">Next.js</span>
+                <span className="tech-tag">Express.js</span>
               </div>
               <div className="project-links">
-                <a href="https://www.figma.com/design/BzpWftEMSrGCd1UnI9tu6M/Legend-Works?node-id=249-591&t=zEFLieLmR9swCj47-1" className="project-btn" target="_blank" rel="noopener noreferrer">
-                  <i className="fab fa-figma"></i> Figma
+                <a href="https://github.com/sudeep02525/student_attendance" className="project-btn" target="_blank" rel="noopener noreferrer">
+                  <i className="fab fa-github"></i> Source Code
                 </a>
               </div>
             </div>
