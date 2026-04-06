@@ -38,7 +38,7 @@ export default function Certifications() {
       title: "AI Fluency Framework & Foundation",
       issuer: "AI Certification Program",
       year: "20 Mar 2026",
-      image: "/AI Fluency Framework & Foundation.png",
+      image: "/AI Fluency Framework & Foundations.png",
       description: "Certification demonstrating proficiency in AI fluency frameworks, foundational AI concepts, and practical application of AI tools."
     },
     {
