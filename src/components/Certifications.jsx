@@ -35,10 +35,10 @@ export default function Certifications() {
       description: "Full-stack web development certification covering HTML, CSS, JavaScript, React, and modern web technologies."
     },
     {
-      title: "AI Fluency Framework & Foundations",
+      title: "AI Fluency Framework & Foundation",
       issuer: "AI Certification Program",
       year: "20 Mar 2026",
-      image: "/AI Fluency Framework & Foundations.png",
+      image: "/AI Fluency Framework & Foundation.png",
       description: "Certification demonstrating proficiency in AI fluency frameworks, foundational AI concepts, and practical application of AI tools."
     },
     {
