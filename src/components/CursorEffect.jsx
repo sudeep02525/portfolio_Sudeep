@@ -37,8 +37,8 @@ export default function CursorEffect() {
 
       // Only animate if there's significant movement
       if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) {
-        cursorRef2.current.x += dx * 0.1;
-        cursorRef2.current.y += dy * 0.1;
+        cursorRef2.current.x += dx * 0.25;
+        cursorRef2.current.y += dy * 0.25;
 
         cursor.style.left = cursorRef2.current.x + 'px';
         cursor.style.top = cursorRef2.current.y + 'px';

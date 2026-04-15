@@ -12,13 +12,7 @@ export default function Hero() {
   };
 
   const handleDownloadCV = () => {
-    // Create CV download link
-    const link = document.createElement('a');
-    link.href = '/Sudeep_Das_CV.pdf';
-    link.download = 'Sudeep_Das_CV.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    window.open('/cv', '_blank');
   };
 
   useEffect(() => {

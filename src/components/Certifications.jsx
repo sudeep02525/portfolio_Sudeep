@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 export default function Certifications() {
   const [selectedCert, setSelectedCert] = useState(null);
+  const [showAll, setShowAll] = useState(false);
 
   const certificates = [
     {
@@ -78,13 +79,7 @@ export default function Certifications() {
     }
   ];
 
-  const handleViewCertificate = (cert) => {
-    setSelectedCert(cert);
-  };
-
-  const handleCloseCertificate = () => {
-    setSelectedCert(null);
-  };
+  const visibleCerts = showAll ? certificates : certificates.slice(0, 6);
 
   return (
     <>
@@ -95,7 +90,7 @@ export default function Certifications() {
           </h2>
           
           <div className="certifications-grid">
-            {certificates.map((cert, index) => (
+            {visibleCerts.map((cert, index) => (
               <div key={index} className="certificate-card">
                 <div className="certificate-logo">
                   <img src={cert.image} alt={cert.title} />
@@ -106,7 +101,7 @@ export default function Certifications() {
                 <p className="certificate-description">{cert.description}</p>
                 <button 
                   className="certificate-btn"
-                  onClick={() => handleViewCertificate(cert)}
+                  onClick={() => setSelectedCert(cert)}
                 >
                   <span>View Certificate</span>
                   <i className="fas fa-external-link-alt"></i>
@@ -114,14 +109,31 @@ export default function Certifications() {
               </div>
             ))}
           </div>
+
+          {/* View All / Show Less Button */}
+          {!showAll ? (
+            <div className="cert-view-all-container">
+              <button className="cert-view-all-btn" onClick={() => setShowAll(true)}>
+                <span>View All Certificates</span>
+                <i className="fas fa-chevron-down"></i>
+              </button>
+            </div>
+          ) : (
+            <div className="cert-view-all-container">
+              <button className="cert-view-all-btn" onClick={() => setShowAll(false)}>
+                <span>Show Less</span>
+                <i className="fas fa-chevron-up"></i>
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
       {/* Certificate Modal */}
       {selectedCert && (
-        <div className="certificate-modal" onClick={handleCloseCertificate}>
+        <div className="certificate-modal" onClick={() => setSelectedCert(null)}>
           <div className="certificate-modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="certificate-modal-close" onClick={handleCloseCertificate}>
+            <button className="certificate-modal-close" onClick={() => setSelectedCert(null)}>
               <i className="fas fa-times"></i>
             </button>
             <img 
